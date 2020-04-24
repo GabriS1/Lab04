@@ -1,8 +1,5 @@
 package it.polito.tdp.lab04.model;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class Studente {
 	
 	int matricola;

@@ -41,6 +41,9 @@ public class Model {
 	
 	public List<Corso> getCorsiByStudente(int matricola){
 		Studente s= this.st.getStudente(matricola);
+		if(s==null) {
+			return null;
+		}
 		List<Corso> c= st.getCorsiByStudente(s);
 		return c;
 	}

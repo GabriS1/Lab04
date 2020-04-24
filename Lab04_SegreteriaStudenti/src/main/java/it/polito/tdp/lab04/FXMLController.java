@@ -60,6 +60,7 @@ public class FXMLController {
 
     @FXML
     void doCercaCorsi(ActionEvent event) {
+    	
     	if(btnChoice.getValue().compareTo("")==0) {
     		int i=0;
     		try {
@@ -69,12 +70,22 @@ public class FXMLController {
     			return;
     		}
         	List<Corso> corsi= model.getCorsiByStudente(i);
-        	String res="";
-        	for(Corso c:corsi) {
-        		res+= c.getCodins()+" "+c.getCrediti()+" "+c.getNome()+" "+c.getPd()+"\n";
+        	
+        	if(corsi==null) {
+        		txtResult.setText("Matricola inesistente");
+        		return;
         	}
         	
-        	txtResult.setText(res);
+        	StringBuilder sb = new StringBuilder();
+
+			for (Corso corso : corsi) {
+				sb.append(String.format("%-8s ", corso.getCodins()));
+				sb.append(String.format("%-4s ", corso.getCrediti()));
+				sb.append(String.format("%-45s ", corso.getNome()));
+				sb.append(String.format("%-4s ", corso.getPd()));
+				sb.append("\n");
+			}
+			txtResult.appendText(sb.toString());
     	}else {
     		int i=0;
     		try {
@@ -110,15 +121,19 @@ public class FXMLController {
     	}
     	
     	List<Studente> studenti = this.model.getStudentiByCorso(s);
-    	String res="";
-    	for(Studente si:studenti) {
-    		res+=si.getMatricola()+" "+si.getCognome()+" "+si.getNome()+" "+si.getCds()+"\n";
-    		
-    	}
-    	
-    	//String res1 = String.format("%-20s", res);
-    	
-    	this.txtResult.setText(res);
+    	StringBuilder sb = new StringBuilder();
+
+		for (Studente studente : studenti) {
+
+			sb.append(String.format("%-20s ", studente.getMatricola()));
+			sb.append(String.format("%-20s ", studente.getCognome()));
+			sb.append(String.format("%-20s ", studente.getNome()));
+			sb.append(String.format("%-20s ", studente.getCds()));
+			sb.append("\n");
+		}
+
+		txtResult.appendText(sb.toString());
+
     	
     }
 
@@ -186,6 +201,8 @@ public class FXMLController {
     	for(Corso c: model.getTuttiICorsi()) {
     		btnChoice.getItems().add(c.getNome());
     	}
+    	
+    	this.btnChoice.setValue("");
     }
 }
 
